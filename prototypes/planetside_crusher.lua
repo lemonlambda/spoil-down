@@ -1,4 +1,4 @@
-if mods["space-age"] and settings.startup["planetside-crusher"] then
+if mods["space-age"] and settings.startup["planetside-crusher"].value then
     local bad_crusher = table.deepcopy(data.raw["assembling-machine"]["crusher"])
     bad_crusher.name = "bad-crusher"
     bad_crusher.crafting_speed = bad_crusher.crafting_speed / 3.0
@@ -8,6 +8,10 @@ if mods["space-age"] and settings.startup["planetside-crusher"] then
       min = 1,
     }}
     bad_crusher.enabled = true
+    bad_crusher.minable = {
+        mining_time = 0.5,
+        result = "bad-crusher"
+    }
 
     local bad_crusher_item = table.deepcopy(data.raw["item"]["crusher"])
     bad_crusher_item.name = "bad-crusher"

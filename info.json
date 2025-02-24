@@ -1,6 +1,6 @@
 {
     "name": "spoil-down",
-    "version": "0.1.4",
+    "version": "0.1.5",
     "title": "Spoil Down",
     "author": "LambdaLemon",
     "description": "Makes every item spoil down into another item. Like iron plate -> iron ore",
