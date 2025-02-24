@@ -1,9 +1,11 @@
 {
     "name": "spoil-down",
-    "version": "0.1.5",
+    "version": "0.1.6",
     "title": "Spoil Down",
     "author": "LambdaLemon",
     "description": "Makes every item spoil down into another item. Like iron plate -> iron ore",
     "factorio_version": "2.0",
-    "dependencies": ["multispoil >= 0.1.4"]
+    "dependencies": [
+        "runtime-spoilage-library >= 0.1.1"
+    ]
 }
