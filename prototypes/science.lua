@@ -1,5 +1,3 @@
-local multispoil = require("__multispoil__.api")
-
 local function try_make_science_spoil(name, result, multi)
     if (data.raw["tool"][name] == nil and data.raw["tool"][result] == nil) or data.raw["tool"][name] == nil then
         return

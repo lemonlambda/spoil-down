@@ -1,5 +1,3 @@
-local multispoil = require("__multispoil__.api")
-
 local function try_make_module_spoil(name, result, multi)
     if (data.raw["module"][name] == nil and data.raw["module"][result] == nil) or data.raw["module"][name] == nil then
         return

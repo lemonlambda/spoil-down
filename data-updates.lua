@@ -1,7 +1,6 @@
 require("prototypes.modules")
 require("prototypes.science")
 require("prototypes.planetside_crusher")
-local multispoil = require("__multispoil__.api")
 local rsl = require("__runtime-spoilage-library__/data_registry")
 
 local helper = require("prototypes.helper")
