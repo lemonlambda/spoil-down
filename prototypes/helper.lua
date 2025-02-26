@@ -1,3 +1,4 @@
+local rsl = require("__runtime-spoilage-library__/data_registry")
 local helper = {
     default_spoil_ticks = 30 * 60
 }
@@ -6,7 +7,7 @@ local caching_get_spoil_ticks = {}
 local caching_get_complexity = {}
 
 function helper.in_table(table, value)
-    for _,v in pairs(table) do
+    for _, v in pairs(table) do
         if v == value then
             return true
         end
@@ -23,7 +24,7 @@ function helper.get_best_recipe(item_name)
 
     local best_option = {}
     -- Pick the best recipe based on what has the most spoilage or the most ingredients
-    for _,r in pairs(recipe) do
+    for _, r in pairs(recipe) do
         if r.ingredients == nil then
             goto recipe_continue
         end
@@ -34,7 +35,7 @@ function helper.get_best_recipe(item_name)
 
         if #r.ingredients >= 1 then
             local all_fluid = true
-            for _,v in pairs(r.ingredients) do
+            for _, v in pairs(r.ingredients) do
                 if v.type == "item" then
                     all_fluid = false
                     break
@@ -97,13 +98,13 @@ function helper.get_recipe_complexity(recipe, params)
 
     log(recipe.name .. " -> " .. serpent.line(params.ignore_item))
 
-    for _,ingredient in pairs(recipe.ingredients) do
+    for _, ingredient in pairs(recipe.ingredients) do
         if helper.in_table(params.ignore_item, ingredient.name) then
             goto continue
         end
 
         table.insert(params.ignore_item, ingredient.name)
-        
+
         if ingredient.type == "fluid" then
             complexity = complexity + 2
         end
@@ -111,7 +112,7 @@ function helper.get_recipe_complexity(recipe, params)
             complexity = complexity + 1
         end
 
-        for _,ingredient_recipe in pairs(helper.get_recipe(ingredient.name)) do
+        for _, ingredient_recipe in pairs(helper.get_recipe(ingredient.name)) do
             if not helper.in_table(params.ignore_recipe, ingredient_recipe.name) then
                 complexity = complexity + helper.get_recipe_complexity(ingredient_recipe, params)
             end
@@ -143,7 +144,7 @@ function helper.remove_fluid_ingredients(ingredients)
     local ingreds = {}
 
     if ingredients ~= {} and ingredients ~= nil then
-        for _,ingredient in pairs(ingredients) do
+        for _, ingredient in pairs(ingredients) do
             if ingredient.type == "item" then
                 table.insert(ingreds, ingredient)
             end
@@ -158,15 +159,15 @@ end
 function helper.get_recipe(item_name)
     local recipes = {}
 
-    for name,recipe in pairs(data.raw["recipe"]) do
+    for name, recipe in pairs(data.raw["recipe"]) do
         if recipe.results == nil then
             goto continue
         end
         if #recipe.results == 0 then
             goto continue
-        end 
+        end
 
-        for _,result in pairs(recipe.results) do
+        for _, result in pairs(recipe.results) do
             if result.name == item_name then
                 table.insert(recipes, recipe)
             end
@@ -176,6 +177,26 @@ function helper.get_recipe(item_name)
     end
 
     return recipes
+end
+
+---@param item data.ItemPrototype
+---@param results data.ItemID[]
+function helper.create_spoilable_item(item, results)
+    local result_string = "spoildown-" .. item.name
+    for _, value in pairs(results) do
+        result_string = result_string .. "___" .. value
+    end
+    data:extend {{
+        name = result_string,
+        type = "item",
+        icon = "__base__/graphics/icons/production-science-pack.png",
+        subgroup = "raw-material",
+        stack_size = 10,
+        spoil_ticks = 120,
+        hidden = true,
+        hidden_in_factoriopedia = true,
+    }}
+    rsl.register_spoilable_item(item)
 end
 
 return helper

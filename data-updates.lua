@@ -1,34 +1,11 @@
 require("prototypes.modules")
 require("prototypes.science")
 require("prototypes.planetside_crusher")
-local rsl = require("__runtime-spoilage-library__/data_registry")
 
 local helper = require("prototypes.helper")
 
 if feature_flags["spoiling"] == false then
     error("This mod requires Space Age to work")
-end
-
-local placeholder_items = {}
-
----@param item data.ItemPrototype
----@param results data.ItemID[]
-local function create_spoilable_item(item, results)
-    local result_string = "spoildown-" .. item.name
-    for _, value in pairs(results) do
-        result_string = result_string .. "___" .. value
-    end
-    table.insert(placeholder_items, {
-        name = result_string,
-        type = "item",
-        icon = "__base__/graphics/icons/production-science-pack.png",
-        subgroup = "raw-material",
-        stack_size = 10,
-        spoil_ticks = 120,
-        hidden = true,
-        hidden_in_factoriopedia = true,
-    })
-    rsl.register_spoilable_item(item)
 end
 
 for name, item in pairs(data.raw["item"]) do
@@ -84,10 +61,8 @@ for name, item in pairs(data.raw["item"]) do
             table.insert(items, ingredient.name)
         end
 
-        create_spoilable_item(item, items)
+        helper.create_spoilable_item(item, items)
     end
 
     ::continue::
 end
-
-data.extend(placeholder_items)
