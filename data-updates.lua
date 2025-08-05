@@ -23,6 +23,7 @@ for name, item in pairs(data.raw["item"]) do
 
     if recipe.ingredients == nil or recipe.results == nil then
         item.spoil_ticks = helper.default_spoil_ticks
+        item.spoil_result = item.name
         goto continue
     end
 

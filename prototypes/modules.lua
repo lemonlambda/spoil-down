@@ -13,13 +13,13 @@ local function try_make_module_spoil(name, result)
     end
 end
 
-try_make_module_spoil("speed-module", {"advanced-circuit", "electronic-circuit"})
+try_make_module_spoil("speed-module", data.raw["recipe"]["speed-module"].ingredients)
 try_make_module_spoil("speed-module-2", "speed-module")
 try_make_module_spoil("speed-module-3", "speed-module-2")
-try_make_module_spoil("productivity-module", {"advanced-circuit", "electronic-circuit"})
+try_make_module_spoil("productivity-module", data.raw["recipe"]["productivity-module"].ingredients)
 try_make_module_spoil("productivity-module-2", "productivity-module")
 try_make_module_spoil("productivity-module-3", "productivity-module-2")
-try_make_module_spoil("efficiency-module", {"advanced-circuit", "electronic-circuit"})
+try_make_module_spoil("efficiency-module", data.raw["recipe"]["efficiency-module"].ingredients)
 try_make_module_spoil("efficiency-module-2", "efficiency-module")
 try_make_module_spoil("efficiency-module-3", "efficiency-module-2")
 try_make_module_spoil("quality-module", {"advanced-circuit", "electronic-circuit"})

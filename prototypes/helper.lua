@@ -1,4 +1,4 @@
-local rsl = require("__runtime-spoilage-library__/data_registry")
+local multispoil = require("__multispoil__.api")
 local helper = {
     default_spoil_ticks = 30 * 60
 }
@@ -182,21 +182,16 @@ end
 ---@param item data.ItemPrototype
 ---@param results data.ItemID[]
 function helper.create_spoilable_item(item, results)
-    local result_string = "spoildown-" .. item.name
-    for _, value in pairs(results) do
-        result_string = result_string .. "___" .. value
+    local converted_results = {}
+    for _, result in pairs(results) do
+        if result.name then
+            converted_results[result.name] = result.amount or 1
+        else
+            converted_results[result] = 1
+        end
     end
-    data:extend {{
-        name = result_string,
-        type = "item",
-        icon = "__base__/graphics/icons/production-science-pack.png",
-        subgroup = "raw-material",
-        stack_size = 10,
-        spoil_ticks = 120,
-        hidden = true,
-        hidden_in_factoriopedia = true,
-    }}
-    rsl.register_spoilable_item(item)
+    
+    item.spoil_to_trigger_result = multispoil.create_spoil_trigger(converted_results)
 end
 
 return helper
